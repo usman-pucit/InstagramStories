@@ -17,7 +17,7 @@ final class StoriesListViewModelImpl {
     enum State {
         case idle
         case loading
-        case result([Int])
+        case result([DTO.Stories.Response.User])
         case empty
         case error(Error)
     }
@@ -36,8 +36,12 @@ extension StoriesListViewModelImpl: StoriesListViewModelProtocol {
         viewState = .loading
         
         do {
-            let stories = try await useCase.fetchStories()
-            viewState = .result(stories)
+            let pages: [DTO.Stories.Response.Page] = try await useCase.fetchStories()
+            if let firstPage = pages.first {
+                viewState = .result(firstPage.users)
+            } else {
+                viewState = .empty
+            }
         } catch {
             viewState = .error(error)
         }

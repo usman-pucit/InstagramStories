@@ -8,15 +8,16 @@
 import Foundation
 
 protocol StoriesListRepositoryProtocol {
-    func fetchStories() async throws -> [Int]
+    func fetchStories() async throws -> [DTO.Stories.Response.Page]
 }
 
 final class StoriesListRepositoryImpl: StoriesListRepositoryProtocol {    
-    func fetchStories() async throws -> [Int] {
+    func fetchStories() async throws -> [DTO.Stories.Response.Page] {
         return try await withCheckedThrowingContinuation { continuation in
             DispatchQueue.global().asyncAfter(deadline: .now() + 2) {
-                // Simulating a network call or data fetch
-                continuation.resume(returning: [1,2,3,4,5])
+                let response = DTO.Stories.Response.pages
+                    
+                continuation.resume(returning: response)
             }
         }
     }

@@ -8,7 +8,7 @@
 import Foundation
 
 protocol StoriesListUseCaseProtocol {
-    func fetchStories() async throws -> [Int]
+    func fetchStories() async throws -> [DTO.Stories.Response.Page]
 }
 
 final class StoryListUseCaseImpl {
@@ -22,7 +22,7 @@ final class StoryListUseCaseImpl {
 }
 
 extension StoryListUseCaseImpl: StoriesListUseCaseProtocol {
-    func fetchStories() async throws -> [Int] {
+    func fetchStories() async throws -> [DTO.Stories.Response.Page] {
         try await repository.fetchStories()
     }
 }
