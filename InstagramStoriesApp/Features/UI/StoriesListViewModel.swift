@@ -10,6 +10,9 @@ import Foundation
 
 protocol StoriesListViewModelProtocol {
     func fetchStories() async
+    func checkStorySeen(id: Int) -> Bool
+    func makeStoryAsSeen(id: Int)
+    func checkAndLoadMoreStories(user: DTO.Stories.Response.User?) async
 }
 
 @Observable
@@ -22,6 +25,7 @@ final class StoriesListViewModelImpl {
         case error(Error)
     }
     
+    private(set) var seenStories: Set<Int> = []
     private(set) var viewState: State = .idle
     private let useCase: StoriesListUseCaseProtocol
     
@@ -45,6 +49,18 @@ extension StoriesListViewModelImpl: StoriesListViewModelProtocol {
         } catch {
             viewState = .error(error)
         }
+    }
+    
+    func checkStorySeen(id: Int) -> Bool {
+        seenStories.contains(id)
+    }
+    
+    func makeStoryAsSeen(id: Int) {
+        seenStories.insert(id)
+    }
+    
+    func checkAndLoadMoreStories(user: DTO.Stories.Response.User?) async {
+        
     }
 }
 
