@@ -61,7 +61,7 @@ extension DTO.Stories.Response {
         let users: [User]
     }
 
-    struct User: Identifiable {
+    struct User: Identifiable, Hashable {
         let id: Int
         let name: String
         let imageUrl: String

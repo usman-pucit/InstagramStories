@@ -23,7 +23,7 @@ struct StoriesListView: View {
         .task {
             await viewModel.fetchStories()
         }
-        .background(Color.accentColor)
+        .background(Color(.systemBackground))
     }
     
     // MARK: - Private Views
@@ -90,6 +90,7 @@ struct StoriesListView: View {
 private struct StoryListItemsView: View {
     private let users: [DTO.Stories.Response.User]
     @State private var viewModel: StoriesListViewModelImpl
+    @EnvironmentObject private var router: NavigationRouter
     
     init(users: [DTO.Stories.Response.User], viewModel: StoriesListViewModelImpl) {
         self.users = users
@@ -107,6 +108,7 @@ private struct StoryListItemsView: View {
                         )
                         .onTapGesture {
                             viewModel.makeStoryAsSeen(id: user.id)
+                            router.presentFullScreen(.storyView(user: user))
                         }
                         .onAppear {
                             Task {
