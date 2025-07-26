@@ -101,7 +101,7 @@ private struct StoryListItemsView: View {
         VStack {
             ScrollView(.horizontal, showsIndicators: false) {
                 LazyHStack(spacing: 12) {
-                    ForEach(users) { user in
+                    ForEach(Array(users.enumerated()), id: \.offset) { index, user in
                         StoryItemView(
                             user: user,
                             viewModel: viewModel
@@ -111,11 +111,14 @@ private struct StoryListItemsView: View {
                             router.presentFullScreen(.storyView(user: user))
                         }
                         .onAppear {
-                            Task {
-                                await viewModel.checkAndLoadMoreStories(user: user)
+                            if index == users.count - 3 {
+                                Task {
+                                    await viewModel.checkAndLoadMoreStories()
+                                }
                             }
                         }
                     }
+                    
                 }
                 .padding(.horizontal)
             }

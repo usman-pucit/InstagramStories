@@ -12,7 +12,7 @@ protocol StoriesListViewModelProtocol {
     func fetchStories() async
     func checkStorySeen(id: Int) -> Bool
     func makeStoryAsSeen(id: Int)
-    func checkAndLoadMoreStories(user: DTO.Stories.Response.User?) async
+    func checkAndLoadMoreStories() async
 }
 
 @Observable
@@ -71,12 +71,8 @@ extension StoriesListViewModelImpl: StoriesListViewModelProtocol {
         seenStories.insert(id)
     }
     
-    func checkAndLoadMoreStories(user: DTO.Stories.Response.User?) async {
-        if let _user = user,
-           let lastUser = totalUsers.last,
-           _user == lastUser,
-           isAllowedToLoadMore
-         {
+    func checkAndLoadMoreStories() async {
+        if isAllowedToLoadMore {
             await fetchStories()
         }
     }
