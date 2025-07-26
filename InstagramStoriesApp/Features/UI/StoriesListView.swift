@@ -69,14 +69,14 @@ struct StoriesListView: View {
                 // handle retry action
             }) {
                 Text("Try Again")
-                .padding(.horizontal, 36)
-                .padding(.vertical, 10)
-                .background(
-                    Capsule()
-                        .fill(Color.blue)
-                )
-                .foregroundColor(.white)
-                .font(.headline)
+                    .padding(.horizontal, 36)
+                    .padding(.vertical, 10)
+                    .background(
+                        Capsule()
+                            .fill(Color.blue)
+                    )
+                    .foregroundColor(.white)
+                    .font(.headline)
             }
             .padding(.top, 16)
             
@@ -105,14 +105,14 @@ private struct StoryListItemsView: View {
                             user: user,
                             viewModel: viewModel
                         )
-                            .onTapGesture {
-                                viewModel.makeStoryAsSeen(id: user.id)
+                        .onTapGesture {
+                            viewModel.makeStoryAsSeen(id: user.id)
+                        }
+                        .onAppear {
+                            Task {
+                                await viewModel.checkAndLoadMoreStories(user: user)
                             }
-                            .onAppear {
-                                Task {
-                                    await viewModel.checkAndLoadMoreStories(user: user)
-                                }
-                            }
+                        }
                     }
                 }
                 .padding(.horizontal)

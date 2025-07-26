@@ -25,6 +25,10 @@ final class StoriesListViewModelImpl {
         case error(Error)
     }
     
+    private var currentPage = 0
+    private var totalPages = 0
+    private var isAllowedToLoadMore = true
+    private var totalUsers: [DTO.Stories.Response.User] = []
     private(set) var seenStories: Set<Int> = []
     private(set) var viewState: State = .idle
     private let useCase: StoriesListUseCaseProtocol
@@ -36,16 +40,24 @@ final class StoriesListViewModelImpl {
 
 // MARK: - StoriesListViewModelProtocol
 extension StoriesListViewModelImpl: StoriesListViewModelProtocol {
+    @MainActor
     func fetchStories() async {
-        viewState = .loading
-        
         do {
             let pages: [DTO.Stories.Response.Page] = try await useCase.fetchStories()
-            if let firstPage = pages.first {
-                viewState = .result(firstPage.users)
-            } else {
-                viewState = .empty
-            }
+            
+            if self.isAllowedToLoadMore {
+                let currentPage = pages[currentPage]
+                let users = currentPage.users
+                self.totalUsers += users
+                self.currentPage += 1
+                self.isAllowedToLoadMore = pages.count > self.currentPage
+                
+                if totalUsers.isEmpty {
+                    viewState = .empty
+                } else {
+                    viewState = .result(self.totalUsers)
+                }
+            } 
         } catch {
             viewState = .error(error)
         }
@@ -60,7 +72,13 @@ extension StoriesListViewModelImpl: StoriesListViewModelProtocol {
     }
     
     func checkAndLoadMoreStories(user: DTO.Stories.Response.User?) async {
-        
+        if let _user = user,
+           let lastUser = totalUsers.last,
+           _user == lastUser,
+           isAllowedToLoadMore
+         {
+            await fetchStories()
+        }
     }
 }
 
