@@ -9,7 +9,7 @@ import SwiftUI
 
 struct StoriesListView: View {
     @State private var viewModel = StoriesListViewModelImpl()
-    @State private var selectedStory: DTO.Stories.Response.User?
+    @State private var selectedStory: UI.Stories.User?
     @State private var showStoryView = false
     
     var body: some View {
@@ -88,11 +88,11 @@ struct StoriesListView: View {
 
 // MARK: - Story List Items View
 private struct StoryListItemsView: View {
-    private let users: [DTO.Stories.Response.User]
+    private let users: [UI.Stories.User]
     @State private var viewModel: StoriesListViewModelImpl
     @EnvironmentObject private var router: NavigationRouter
     
-    init(users: [DTO.Stories.Response.User], viewModel: StoriesListViewModelImpl) {
+    init(users: [UI.Stories.User], viewModel: StoriesListViewModelImpl) {
         self.users = users
         self.viewModel = viewModel
     }
@@ -133,9 +133,9 @@ private struct StoryListItemsView: View {
 // MARK: - Story Item View
 private struct StoryItemView: View {
     @State private var viewModel: StoriesListViewModelImpl
-    let user: DTO.Stories.Response.User
+    let user: UI.Stories.User
     
-    init(user: DTO.Stories.Response.User, viewModel: StoriesListViewModelImpl) {
+    init(user: UI.Stories.User, viewModel: StoriesListViewModelImpl) {
         self.user = user
         self.viewModel = viewModel
     }

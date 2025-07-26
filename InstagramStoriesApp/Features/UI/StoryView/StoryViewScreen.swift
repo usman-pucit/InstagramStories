@@ -11,9 +11,9 @@ struct StoryViewScreen: View {
     @EnvironmentObject private var router: NavigationRouter
     @State private var isLiked: Bool = false
     @State private var isDisliked: Bool = false
-    private let user: DTO.Stories.Response.User
+    private let user: UI.Stories.User
     
-    init(user: DTO.Stories.Response.User) {
+    init(user: UI.Stories.User) {
         self.user = user
     }
     
@@ -59,7 +59,7 @@ struct StoryViewScreen: View {
                         StoryActionsButtonView()
                             .padding(.trailing, 16)
                             .padding(.bottom, 30)
-
+                        
                     }
                 }
             }
@@ -68,5 +68,5 @@ struct StoryViewScreen: View {
 }
 
 #Preview {
-    StoryViewScreen(user: DTO.Stories.Response.User(id: 1, name: "User 1", imageUrl: "https://i.pravatar.cc/300?u=10"))
+    StoryViewScreen(user: UI.Stories.User(id: 1, name: "User 1", imageUrl: "https://i.pravatar.cc/300?u=10"))
 }

@@ -8,11 +8,11 @@
 import SwiftUI
 
 struct UserInfoView: View {
-    let user: DTO.Stories.Response.User
+    let user: UI.Stories.User
     private let onCloseButtonTap: () -> Void
     
     init(
-        user: DTO.Stories.Response.User,
+        user: UI.Stories.User,
         onCloseButtonTap: @escaping () -> Void
     ) {
         self.user = user

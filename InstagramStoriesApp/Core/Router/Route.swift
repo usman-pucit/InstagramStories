@@ -11,5 +11,5 @@ enum Route: Identifiable, Hashable {
     var id: Self { self }
     
     case storiesList
-    case storyView(user: DTO.Stories.Response.User)
+    case storyView(user: UI.Stories.User)
 }

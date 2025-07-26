@@ -6,6 +6,10 @@
 	objectVersion = 77;
 	objects = {
 
+/* Begin PBXBuildFile section */
+		96348D0B2E3510E000C75FA3 /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = 96348D0A2E3510E000C75FA3 /* README.md */; };
+/* End PBXBuildFile section */
+
 /* Begin PBXContainerItemProxy section */
 		96348CA02E34DFE900C75FA3 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -27,6 +31,7 @@
 		96348C8F2E34DFE700C75FA3 /* InstagramStoriesApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = InstagramStoriesApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		96348C9F2E34DFE900C75FA3 /* InstagramStoriesAppTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = InstagramStoriesAppTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		96348CA92E34DFE900C75FA3 /* InstagramStoriesAppUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = InstagramStoriesAppUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		96348D0A2E3510E000C75FA3 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
@@ -75,6 +80,7 @@
 		96348C862E34DFE700C75FA3 = {
 			isa = PBXGroup;
 			children = (
+				96348D0A2E3510E000C75FA3 /* README.md */,
 				96348C912E34DFE700C75FA3 /* InstagramStoriesApp */,
 				96348CA22E34DFE900C75FA3 /* InstagramStoriesAppTests */,
 				96348CAC2E34DFE900C75FA3 /* InstagramStoriesAppUITests */,
@@ -212,6 +218,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				96348D0B2E3510E000C75FA3 /* README.md in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -20,7 +20,7 @@ final class StoriesListViewModelImpl {
     enum State {
         case idle
         case loading
-        case result([DTO.Stories.Response.User])
+        case result([UI.Stories.User])
         case empty
         case error(Error)
     }
@@ -28,7 +28,7 @@ final class StoriesListViewModelImpl {
     private var currentPage = 0
     private var totalPages = 0
     private var isAllowedToLoadMore = true
-    private var totalUsers: [DTO.Stories.Response.User] = []
+    private var totalUsers: [UI.Stories.User] = []
     private(set) var seenStories: Set<Int> = []
     private(set) var viewState: State = .idle
     private let useCase: StoriesListUseCaseProtocol
@@ -40,26 +40,29 @@ final class StoriesListViewModelImpl {
 
 // MARK: - StoriesListViewModelProtocol
 extension StoriesListViewModelImpl: StoriesListViewModelProtocol {
-    @MainActor
     func fetchStories() async {
         do {
             let pages: [DTO.Stories.Response.Page] = try await useCase.fetchStories()
             
             if self.isAllowedToLoadMore {
                 let currentPage = pages[currentPage]
-                let users = currentPage.users
-                self.totalUsers += users
+                let transformedUsers = currentPage.toUIModel() // Tarnsform DTO to UI model
+                self.totalUsers += transformedUsers
                 self.currentPage += 1
                 self.isAllowedToLoadMore = pages.count > self.currentPage
                 
-                if totalUsers.isEmpty {
-                    viewState = .empty
-                } else {
-                    viewState = .result(self.totalUsers)
+                await MainActor.run {
+                    if totalUsers.isEmpty {
+                        viewState = .empty
+                    } else {
+                        viewState = .result(self.totalUsers)
+                    }
                 }
             } 
         } catch {
-            viewState = .error(error)
+            await MainActor.run {
+                viewState = .error(error)
+            }
         }
     }
     
@@ -74,7 +77,17 @@ extension StoriesListViewModelImpl: StoriesListViewModelProtocol {
     func checkAndLoadMoreStories() async {
         if isAllowedToLoadMore {
             await fetchStories()
+        } else {
+            resetPagination() // Reset pagination if no more stories to load infinitely
+            await fetchStories()
         }
+    }
+    
+    // MARK: - Pagination Reset
+    // Resets the pagination state to allow fetching stories from the beginning.
+    func resetPagination() {
+        currentPage = 0
+        isAllowedToLoadMore = true
     }
 }
 
