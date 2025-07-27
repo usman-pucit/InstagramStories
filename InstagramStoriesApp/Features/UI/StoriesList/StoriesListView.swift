@@ -111,7 +111,7 @@ private struct StoryListItemsView: View {
                             router.presentFullScreen(.storyView(user: user))
                         }
                         .onAppear {
-                            if index == users.count - 3 {
+                            if index == users.count - 5 {
                                 Task {
                                     await viewModel.checkAndLoadMoreStories()
                                 }
@@ -147,9 +147,9 @@ private struct StoryItemView: View {
                     .resizable()
                     .aspectRatio(contentMode: .fill)
             } placeholder: {
-                Color.blue
+                Color.gray
             }
-            .frame(width: 100, height: 100)
+            .frame(width: 80, height: 80)
             .clipShape(Circle())
             .overlay(
                 Circle()
@@ -164,7 +164,7 @@ private struct StoryItemView: View {
                 .foregroundColor(.primary)
                 .lineLimit(1)
         }
-        .frame(width: 120)
+        .frame(width: 90)
     }
 }
 

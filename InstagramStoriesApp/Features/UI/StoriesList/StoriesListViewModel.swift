@@ -50,15 +50,11 @@ extension StoriesListViewModelImpl: StoriesListViewModelProtocol {
                 self.totalUsers += transformedUsers
                 self.currentPage += 1
                 self.isAllowedToLoadMore = pages.count > self.currentPage
-                
-                await MainActor.run {
-                    if totalUsers.isEmpty {
-                        viewState = .empty
-                    } else {
-                        viewState = .result(self.totalUsers)
-                    }
-                }
-            } 
+            }
+            
+            await MainActor.run {
+                viewState = totalUsers.isEmpty ? .empty : .result(self.totalUsers)
+            }
         } catch {
             await MainActor.run {
                 viewState = .error(error)
