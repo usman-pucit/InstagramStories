@@ -14,7 +14,7 @@
 - **Stories List Screen**  
   Fetches and displays a list of stories with infinite scroll and fetches data from a stub model.
   
-- **Stories List Screen**  
+- **Story View Screen**  
   Displays story in a full view screen with user avatar, name, story image and like/dislike actions.
 
 ## 📱 Requirements
